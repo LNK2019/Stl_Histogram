@@ -47,14 +47,19 @@ bool StlData::parseData(QString filename) {
     return true;
 }
 
-std::set<HistogramElement*,compareCorner> StlData::getHistogram() {
 
-    std::set<HistogramElement*,compareCorner> areasSet_;
+
+setForHEPoiters * StlData::getHistogram() {
+    return &histogramElementsSet_;
+}
+
+
+void StlData::setHistogram(){
     for(auto it  : triangles_) {
-       auto feedBackPair = areasSet_.insert(new HistogramElement(it.cornerBetweenXOY_));
+       auto feedBackPair = histogramElementsSet_.insert(new HistogramElement(it.cornerBetweenXOY_));
        HistogramElement *buff = (*feedBackPair.first);
        buff->sameTriangles.push_back(it);
     }
-    for(auto it : areasSet_) it->findAreasSum();
-    return areasSet_;
+    for(auto it : histogramElementsSet_) it->findAreasSum();
 }
+

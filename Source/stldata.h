@@ -26,15 +26,24 @@ struct compareCorner {
     }
 };
 
-
+class setForHEPoiters : public std::set<HistogramElement*,compareCorner>
+{
+public:
+    virtual ~setForHEPoiters() {
+        for(auto it : *this)
+            delete it;
+    }
+};
 
 class StlData
 {
     std::deque<Triangle> triangles_;
+    setForHEPoiters histogramElementsSet_;
 public:
     bool parseData(QString filename);
     void addTriangle(Triangle triangle);
-    std::set<HistogramElement*,compareCorner> getHistogram();
+    setForHEPoiters* getHistogram();
+    void setHistogram();
     float getMaxAreasSum();
     StlData();
 };
